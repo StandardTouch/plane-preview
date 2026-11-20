@@ -224,25 +224,24 @@ services:
     volumes:
       - uploads:/export
 
-  # Proxy re-enabled without host port bindings — Dokploy Traefik routes externally,
-  # proxy still serves as internal router for web->api SSR calls
-  proxy:
-    image: makeplane/plane-proxy:${APP_RELEASE:-stable}
-    deploy:
-      replicas: 1
-      restart_policy:
-        condition: any
-    environment:
-      <<: *proxy-env
-    volumes:
-      - proxy_config:/config
-      - proxy_data:/data
-    depends_on:
-      - web
-      - api
-      - space
-      - admin
-      - live
+  # Proxy disabled — Dokploy Traefik handles all routing (web app is pure SPA, no SSR)
+  # proxy:
+  #   image: makeplane/plane-proxy:${APP_RELEASE:-stable}
+  #   deploy:
+  #     replicas: 1
+  #     restart_policy:
+  #       condition: any
+  #   environment:
+  #     <<: *proxy-env
+  #   volumes:
+  #     - proxy_config:/config
+  #     - proxy_data:/data
+  #   depends_on:
+  #     - web
+  #     - api
+  #     - space
+  #     - admin
+  #     - live
 
 volumes:
   pgdata:
